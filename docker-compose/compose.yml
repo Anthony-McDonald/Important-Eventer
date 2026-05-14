@@ -1,0 +1,52 @@
+services:
+  radicale:
+    image: tomsquest/docker-radicale
+    container_name: radicale
+    ports:
+      - 5232:5232
+    init: true
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - CHOWN
+      - KILL
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          pids: 50
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://127.0.0.1:5232
+      interval: 30s
+      retries: 3
+    restart: unless-stopped
+    volumes:
+      - /mnt/crucial-ssd/radicale:/data
+    networks:
+      - internal
+  go-ical-parser:
+    image: go-ical-parser
+    container_name: go-ical-parser
+    environment:
+      CALENDAR_URL: http://radicale:5232/myuser/path-to-my-ical-calendar/
+      CALENDAR_REFRESH_MINUTES: 1
+      SERVER_PORT: 8080
+    ports:
+      - 7259:8080
+    depends_on:
+      - radicale
+    restart: unless-stopped
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
