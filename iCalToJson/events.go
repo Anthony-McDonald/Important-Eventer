@@ -97,7 +97,7 @@ func getFormedEventsFromIcsEvents(embeddingVectorURL string, baseHostUrl string,
 			title = prop.Value
 		}
 
-		days := int(time.Until(start).Hours() / 24)
+		days := int(time.Until(start).Hours()/24) + 1
 
 		time := fmt.Sprintf("%s-%s", start.Format("15:04"), end.Format("15:04"))
 
