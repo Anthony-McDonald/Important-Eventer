@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"testing"
 	"time"
 
@@ -214,7 +215,7 @@ func TestGetFormedEventsFromIcsEvents(t *testing.T) {
 
 	for _, tC := range tests {
 		t.Run(tC.name, func(t *testing.T) {
-			result, err := getFormedEventsFromIcsEvents(tC.events)
+			result, err := getFormedEventsFromIcsEvents("", "", embed.FS{}, tC.events)
 
 			if tC.expectError {
 				if err == nil {

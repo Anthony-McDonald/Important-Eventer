@@ -94,8 +94,8 @@ func TestLoadConfig(t *testing.T) {
 				t.Fatalf("expected port %d, got %d", tC.expectedPort, cfg.Server.Port)
 			}
 
-			if cfg.Calendar.URL != tC.expectedURL {
-				t.Fatalf("expected URL %q, got %q", tC.expectedURL, cfg.Calendar.URL)
+			if cfg.Calendar.CalendarURL != tC.expectedURL {
+				t.Fatalf("expected URL %q, got %q", tC.expectedURL, cfg.Calendar.CalendarURL)
 			}
 
 			if cfg.Calendar.EventsToReturn != tC.expectedEvents {

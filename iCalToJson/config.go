@@ -9,14 +9,15 @@ import (
 // Config holds environment-driven configuration for the server and calendar.
 type Config struct {
 	Server struct {
-		Port int `env:"SERVER_PORT" envDefault:"8080"`
+		BaseURL string `env:"SERVER_URL" envDefault:"http://127.0.0.1"`
+		Port    int    `env:"SERVER_PORT" envDefault:"8080"`
 	}
-
 	Calendar struct {
-		URL            string `env:"CALENDAR_URL"`
+		CalendarURL    string `env:"CALENDAR_URL"`
 		EventsToReturn int    `env:"CALENDAR_EVENTS_TO_RETURN" envDefault:"4"`
 		RefreshMinutes int    `env:"CALENDAR_REFRESH_MINUTES" envDefault:"1"`
 	}
+	EmbeddingVectorURL string `env:"EMBEDDING_VECTOR_URL"`
 }
 
 // config is the global runtime configuration instance.
@@ -30,7 +31,7 @@ func loadConfig() (Config, error) {
 		return cfg, fmt.Errorf("env parse error: %w", err)
 	}
 
-	if cfg.Calendar.URL == "" {
+	if cfg.Calendar.CalendarURL == "" {
 		return cfg, fmt.Errorf("CALENDAR_URL must be set")
 	}
 

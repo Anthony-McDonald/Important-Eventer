@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -100,6 +101,8 @@ func TestHandler(t *testing.T) {
 
 			req := httptest.NewRequest(http.MethodGet, "/", nil)
 			rec := httptest.NewRecorder()
+
+			handler := MakeNextHandler("", "", embed.FS{})
 
 			handler(rec, req)
 

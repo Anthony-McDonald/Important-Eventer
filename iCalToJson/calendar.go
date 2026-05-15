@@ -28,7 +28,7 @@ func getCalendar() (*ics.Calendar, error) {
 		return cachedCal, nil
 	}
 
-	resp, err := http.Get(config.Calendar.URL)
+	resp, err := http.Get(config.Calendar.CalendarURL)
 	if err != nil {
 		return nil, err
 	}

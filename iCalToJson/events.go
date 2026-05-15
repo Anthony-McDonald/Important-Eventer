@@ -1,8 +1,11 @@
 package main
 
 import (
+	"embed"
 	"errors"
 	"fmt"
+	"io/fs"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -66,7 +69,7 @@ func findNextEvents(cal *ics.Calendar, limit int) ([]*ics.VEvent, error) {
 }
 
 // getFormedEventsFromIcsEvents converts ICS events into API response-ready Event structs.
-func getFormedEventsFromIcsEvents(events []*ics.VEvent) ([]Event, error) {
+func getFormedEventsFromIcsEvents(embeddingVectorURL string, baseHostUrl string, iconSet embed.FS, events []*ics.VEvent) ([]Event, error) {
 
 	if len(events) == 0 {
 		return nil, errors.New("no events provided")
@@ -98,8 +101,23 @@ func getFormedEventsFromIcsEvents(events []*ics.VEvent) ([]Event, error) {
 
 		time := fmt.Sprintf("%s-%s", start.Format("15:04"), end.Format("15:04"))
 
+		imageToUse := chooseImage(embeddingVectorURL, title)
+
+		path, err := getIconPath(iconSet, imageToUse)
+
+		if err != nil {
+			return []Event{}, fmt.Errorf("form events from ics events: %w", err)
+		}
+
+		fullPath := fmt.Sprintf("%s%s", baseHostUrl, path)
+
+		if err != nil {
+			return []Event{}, fmt.Errorf("find image %q:%w", imageToUse, err)
+		}
+
 		result = append(result, Event{
 			Title:         title,
+			RelevantImage: fullPath,
 			DaysRemaining: days,
 			Date:          start.Format("02-01-2006"),
 			Time:          time,
@@ -111,4 +129,37 @@ func getFormedEventsFromIcsEvents(events []*ics.VEvent) ([]Event, error) {
 	}
 
 	return result, nil
+}
+
+// getIconPath finds the file with name 'target' in fsys and returns its URL path.
+func getIconPath(fsys embed.FS, target string) (string, error) {
+	var foundPath string
+	var found bool
+
+	err := fs.WalkDir(fsys, ".", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() {
+			return nil
+		}
+
+		if filepath.Base(path) == target {
+			foundPath = path
+			found = true
+			return fs.SkipAll
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return "", err
+	}
+	if !found {
+		return "", fmt.Errorf("file %s not found", target)
+	}
+
+	return foundPath, nil
 }

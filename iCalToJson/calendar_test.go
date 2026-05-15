@@ -96,9 +96,9 @@ END:VCALENDAR`
 				}))
 				defer server.Close()
 
-				config.Calendar.URL = server.URL
+				config.Calendar.CalendarURL = server.URL
 			} else {
-				config.Calendar.URL = "http://127.0.0.1:0"
+				config.Calendar.CalendarURL = "http://127.0.0.1:0"
 			}
 
 			config.Calendar.RefreshMinutes = tC.refreshMinutes
