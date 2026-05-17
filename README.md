@@ -50,36 +50,4 @@ Nothing, this was my prototype and I will not be working on this one more.
 
 ### E-Paper Implementation
 
-#### Improving unused display space (context-aware SVG icons)
-
-One of the main future improvements is to make better use of the currently unused space on the display.
-
-At the moment, a noticeable portion of the e-paper screen remains empty, particularly in the lower portion of the display.
-
-##### Proposed idea
-
-The plan is to dynamically display small **context-aware SVG icons** based on the current event title. For example, if the event is a meeting, calendar event, birthday, or appointment, an appropriate icon could be shown alongside or beneath the text content.
-
-Because the LilyGo T5 has limited resources, SVGs are ideal due to their:
-
-- Very small file size
-- Scalability without quality loss
-- Suitability for monochrome e-paper rendering
-
-##### Icon selection approach
-
-A lightweight classification step could be used to map event titles to icons. One possible approach is:
-
-- Extract event title (e.g. “Doctor Appointment”, “Team Meeting”)
-- Match against a predefined category list
-- Select a corresponding SVG icon
-
-A more advanced version could use an LLM to classify the event title into a category and return a matching icon key from a predefined set. The LLM would not generate images, only select from existing safe assets.
-
-This keeps the system deterministic, fast, and suitable for embedded constraints.
-
-##### Visual area for improvement
-
-The highlighted area in the image below shows the unused space that could be enhanced with contextual icons:
-
-![E-paper display with highlighted unused space showing where additional visual elements could be placed](./images/epaper-missing-space.jpg)
+Nothing at the moment, feel free to suggest ideas.
