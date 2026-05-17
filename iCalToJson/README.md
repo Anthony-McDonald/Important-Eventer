@@ -20,12 +20,15 @@ A Go application that fetches and tracks the next upcoming event from an iCalend
 
 The application uses environment variables for configuration:
 
-| Environment Variable            | Description                                  | Default Value |
-|-------------------------------|----------------------------------------------|---------------|
-| `SERVER_PORT`                 | Port to run the HTTP server on               | `8080`        |
-| `CALENDAR_URL`                | URL to the iCalendar (ICS) file              | (required)    |
-| `CALENDAR_EVENTS_TO_RETURN`    | How many of the fetched events to return    | `4`           |
-| `CALENDAR_REFRESH_MINUTES`    | How often to refresh the calendar data       | `1`           |
+
+| Environment Variable            | Description                                  |       Default Value        |
+|-------------------------------|------------------------------------------------|----------------------------|
+| `SERVER_URL`                  | URL used to inform image hosting               |    `http://127.0.0.1"`     |
+| `SERVER_PORT`                 | Port to run the HTTP server on                 |          `8080`            |
+| `CALENDAR_URL`                | URL to the iCalendar (ICS) file                |        (required)          |
+| `CALENDAR_EVENTS_TO_RETURN`   | How many of the fetched events to return       |           `4`              |
+| `CALENDAR_REFRESH_MINUTES`    | How often to refresh the calendar data         |           `1`              |
+| `EMBEDDING_VECTOR_URL`        | URL to request to get an embedding vector      |        (required)          |
 
 ## Usage
 

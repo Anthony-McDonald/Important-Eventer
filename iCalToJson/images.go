@@ -75,7 +75,7 @@ func chooseImage(embeddingVectorURL string, event string) string {
 	eventVec, _ := embedFn(embeddingVectorURL, event)
 
 	bestScore := -1.0
-	bestImage := "default.png"
+	bestImage := "default.jpg"
 
 	for file, tags := range images {
 		vec, _ := embedFn(embeddingVectorURL, tags)

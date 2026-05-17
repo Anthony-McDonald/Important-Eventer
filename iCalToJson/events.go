@@ -97,7 +97,23 @@ func getFormedEventsFromIcsEvents(embeddingVectorURL string, baseHostUrl string,
 			title = prop.Value
 		}
 
-		days := int(time.Until(start).Hours()/24) + 1
+		loc, err := time.LoadLocation("Europe/London")
+		if err != nil {
+			panic(err)
+		}
+
+		now := time.Now().In(loc)
+		start = start.In(loc)
+
+		y1, m1, d1 := now.Date()
+		y2, m2, d2 := start.Date()
+
+		today := time.Date(y1, m1, d1, 0, 0, 0, 0, loc)
+		eventDay := time.Date(y2, m2, d2, 0, 0, 0, 0, loc)
+
+		days := int(eventDay.Sub(today).Hours() / 24)
+
+		fmt.Println("days sending:", days)
 
 		time := fmt.Sprintf("%s-%s", start.Format("15:04"), end.Format("15:04"))
 
